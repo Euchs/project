@@ -1,17 +1,12 @@
-package projectManagerrJava;
+package manageProject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Project {
-	//Variables
-	//String owner, title, comments;
+	
 	ConnectorToDb con = new ConnectorToDb();
 	
-	//Functions
-	//Add project-Lecturer
-	//Place Comment-Lecturer
-	//View Comment-student
 	
 	//Add Project
 	public void addProject(String owner, String title) throws SQLException {

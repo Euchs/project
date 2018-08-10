@@ -37,20 +37,26 @@ public class Proposal{
 		return owner;
 	}
 	
-	//Check if proposal has been approved
-	public String viewProposalStatus(String owner) throws SQLException{
+	//Does Proposal Exist
+	public  static Boolean doesProposalExist(String proposalId) throws Exception  {
 		
-		//First check if the project exists
 		Proposal proposal = new Proposal();
-		String state;
-		ArrayList<String> proper = proposal.checkSubmittedProposalsIds();
-		int i=0;String proposalExists = "No";
-		while(i<proper.size() & proposalExists != "Yes") {
-			if(!owner.equalsIgnoreCase(proper.get(i))) {proposalExists = "No";}else {proposalExists = "Yes";}i++;
-
+		ArrayList<String> testaProposalId=proposal.checkSubmittedProposalsIds();
+		int i=0;Boolean proposalAvailable = false;
+		while(i<testaProposalId.size() & proposalAvailable != true) {
+			if(!proposalId.equalsIgnoreCase(testaProposalId.get(i))) {proposalAvailable = false;}else {proposalAvailable = true;}i++;
 		}
 		
-		if(proposalExists == "Yes") {
+		return proposalAvailable;
+	}
+	
+	//Check if proposal has been approved
+	public String viewProposalStatus(String owner) throws Exception{
+		
+		//First check if the project exists
+		
+		String state;
+		if(doesProposalExist(owner)) {
 		PreparedStatement prep = con.connection.prepareStatement("select state from proposal where owner=?");
 		prep.setString(1, owner);
 
@@ -65,15 +71,9 @@ public class Proposal{
 	public String placeProposal(String filePath, String owner) throws Exception{
 
 		//First check if the proposal does not exist
-		Proposal proposal = new Proposal();
-		ArrayList<String> proper = proposal.checkSubmittedProposalsIds();
-		int i=0;String proposalExists = "No";
-		while(i<proper.size() & proposalExists != "Yes") {
-			if(!owner.equalsIgnoreCase(proper.get(i))) {proposalExists = "No";}else {proposalExists = "Yes";}i++;
 
-		}
 		InputStream inp = new FileInputStream(new File(filePath));
-		if/*if proposal does not exist*/(proposalExists == "No") {
+		if(!doesProposalExist(owner)) {
 		
 		PreparedStatement prep = con.connection.prepareStatement("insert into proposal (owner, proposalfile, state) values (?, ?, ?)");
 		prep.setString(1, owner);
@@ -97,18 +97,11 @@ public class Proposal{
 	public String viewProposal(String owner) throws Exception{
 		
 		//First check if the proposal exists
-				Proposal proposal = new Proposal();
-				String savedOrNot;
-				int BUFFER_SIZE = 100000;
-				String filePathSave = "C:\\Users\\Ouma\\Documents\\workspace-sts-3.9.5.RELEASE\\projectManger\\javaFiles\\myproposal.txt";
+		String savedOrNot;
+		int BUFFER_SIZE = 100000;
+		String filePathSave = "C:\\Users\\Ouma\\Documents\\workspace-sts-3.9.5.RELEASE\\projectManger\\javaFiles\\myproposal.txt";
 	
-				ArrayList<String> proper = proposal.checkSubmittedProposalsIds();
-				int i=0;String proposalExists = "No";
-				while(i<proper.size() & proposalExists != "Yes") {
-					if(!owner.equalsIgnoreCase(proper.get(i))) {proposalExists = "No";}else {proposalExists = "Yes";}i++;
-
-				}
-	    if(proposalExists == "Yes") {
+	    if(doesProposalExist(owner)) {
 		PreparedStatement prep = con.connection.prepareStatement("select proposalfile from proposal where owner=?");
 		prep.setString(1, owner);
 
@@ -134,16 +127,10 @@ public class Proposal{
 	public String approveProposal(String owner) throws Exception {
 		
 		//First check if the proposal exists
-		Proposal proposal = new Proposal();
+
 		String done;
 
-		ArrayList<String> proper = proposal.checkSubmittedProposalsIds();
-		int i=0;String proposalExists = "No";
-		while(i<proper.size() & proposalExists != "Yes") {
-			if(!owner.equalsIgnoreCase(proper.get(i))) {proposalExists = "No";}else {proposalExists = "Yes";}i++;
-
-		}
-		if(proposalExists == "Yes") {
+		if(doesProposalExist(owner)) {
 			
 			String defaultState= "Not Approved";
 			String newtState= "Approved";

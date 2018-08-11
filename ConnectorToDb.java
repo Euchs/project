@@ -1,4 +1,4 @@
-package manageProject;
+package manageProjects;
 import java.sql.*;
 	
 public class ConnectorToDb {

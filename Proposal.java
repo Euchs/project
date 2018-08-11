@@ -1,4 +1,4 @@
-package manageProject;
+package manageProjects;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,6 +17,7 @@ public class Proposal{
 	Functions: place proposal(student), view proposal file(lecturer), approve proposal(lecturer), view proposal status(student)*/
 
 	ConnectorToDb con = new ConnectorToDb();
+	String done;
 	
 	
 	
@@ -84,7 +85,7 @@ public class Proposal{
 		prep.executeUpdate();}else /*if proposal already exists*/{
 			
 			String defaultState= "Not Approved";
-			PreparedStatement prep = con.connection.prepareStatement("update proposal set proposalfile=? where owner ='"+owner+"' and state='"+defaultState+"'");
+			PreparedStatement prep = con.connection.prepareStatement("update proposal set proposalfile=?, state='"+defaultState+"' where owner ='"+owner+"'");
 			prep.setBlob(1, inp);
 			prep.executeUpdate();
 		}
@@ -99,7 +100,7 @@ public class Proposal{
 		//First check if the proposal exists
 		String savedOrNot;
 		int BUFFER_SIZE = 100000;
-		String filePathSave = "C:\\Users\\Ouma\\Documents\\workspace-sts-3.9.5.RELEASE\\projectManger\\javaFiles\\myproposal.txt";
+		String filePathSave = "C:\\Users\\Ouma\\Documents\\workspace-sts-3.9.5.RELEASE\\ProjectManagementSyst\\ProposalFiles\\myProposal.txt";
 	
 	    if(doesProposalExist(owner)) {
 		PreparedStatement prep = con.connection.prepareStatement("select proposalfile from proposal where owner=?");
@@ -123,20 +124,30 @@ public class Proposal{
 		return savedOrNot;
 	}
 	
-		//Approve proposal
+	//Is proposal approved
+	public  static Boolean isProposalApproved(String proposalId) throws Exception  {
+		
+		Proposal proposal = new Proposal();
+		String testaProposalId=proposal.viewProposalStatus(proposalId);
+		Boolean proposalApproved = false;
+		
+		if(testaProposalId.equalsIgnoreCase("Not Approved")) {proposalApproved = false;}else {proposalApproved = true;}
+		return proposalApproved;
+	}
+	
+	
+	//Approve proposal
 	public String approveProposal(String owner) throws Exception {
 		
 		//First check if the proposal exists
 
-		String done;
-
-		if(doesProposalExist(owner)) {
+		if(doesProposalExist(owner) && !isProposalApproved(owner)) {
 			
 			String defaultState= "Not Approved";
 			String newtState= "Approved";
 			con.statement.executeUpdate("update proposal set state='"+newtState+"' where owner ='"+owner+"' and state='"+defaultState+"'");
-			done="Proposal Approved";
-		}else {done="Proposal Does not Exist";}
+			done="Proposal Approved Successfully";
+		}else if(!doesProposalExist(owner)){done="Proposal Does not Exist";}else if(isProposalApproved(owner)){done="Proposal Was Already Approved Previously";}
 		return done;
 
 	}

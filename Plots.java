@@ -1,4 +1,4 @@
-package manageProject;
+package manageProjects;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -39,6 +39,7 @@ public class Plots {
 	
 	//Retrieve free plots
 	public ArrayList<String> checkFreePlots() throws SQLException {
+		
 		ArrayList<String> labelFree = new ArrayList<String>();
 		String query = "select label from plots where owner IS NULL";
 		
@@ -123,11 +124,12 @@ public  static Boolean isPlotFree(String checkedLabel) throws Exception  {
 	}
 	
 	//Unbook
-	public String unbook(String studentReg) throws SQLException {
+	public String unbook(String studentReg) throws Exception {
 		
+		if(hasAplotAlready(studentReg)) {
 		con.statement.executeUpdate("update plots set owner = null where owner='"+studentReg+"';");
 		success="Successfully Unbooked " + studentReg;
-
+		}else {success="Invalid registration number. The booker does not exist";}
 		
 		return success;
 		

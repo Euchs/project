@@ -95,7 +95,7 @@ public  static Boolean isPlotFree(String checkedLabel) throws Exception  {
 		//We only book an existing plot.
 		//Allow not double book.
 		
-		if(doesPlotExist(plotLabel) && isPlotFree(plotLabel) && !hasAplotAlready(regNo)) {
+		if(doesPlotExist(plotLabel) && isPlotFree(plotLabel) && !hasAplotAlready(regNo) && Users.isRegistered(regNo)) {
 			 //Add plot owner to plot details
 			 con.statement.executeUpdate("update `plots` set owner = '"+regNo+"' where owner IS NULL and label='"+plotLabel+"'");
 			success="Booking Successful";
@@ -114,11 +114,12 @@ public  static Boolean isPlotFree(String checkedLabel) throws Exception  {
 	public ArrayList<String> checkAvailableBookers() throws SQLException {
 		
 		ArrayList<String> owner = new ArrayList<String>();
-		String query = "select owner from plots where owner IS NOT NULL";
+		String query = "select owner, label from plots where owner IS NOT NULL";
 		
 		ResultSet results = con.statement.executeQuery(query);
 		while(results.next()){
 			owner.add(results.getString("owner"));
+			owner.add(results.getString("label"));
 		}
 		return owner;
 	}
@@ -126,10 +127,15 @@ public  static Boolean isPlotFree(String checkedLabel) throws Exception  {
 	//Unbook
 	public String unbook(String studentReg) throws Exception {
 		
-		if(hasAplotAlready(studentReg)) {
+		if(hasAplotAlready(studentReg) && !Project.doesProjectExist(studentReg)) {
 		con.statement.executeUpdate("update plots set owner = null where owner='"+studentReg+"';");
 		success="Successfully Unbooked " + studentReg;
-		}else {success="Invalid registration number. The booker does not exist";}
+		}
+		else if(Project.doesProjectExist(studentReg)){
+			success = "Student has a project already. Can't unbook him...";
+		}
+		else {success="Invalid registration number. The booker does not exist";}
+		
 		
 		return success;
 		

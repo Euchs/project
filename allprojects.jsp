@@ -9,14 +9,14 @@
 	
 </style>
 
-<title>FREE PLOTS</title>
+<title>ALL PROJECTS</title>
 </head>
 <body>
-	<jsp:include page="student.html"/><br/><br/>
+	<jsp:include page="lecturer.html"/><br/><br/>
 	
-	<form action="getFreePlots" method="post">
-		<h1>FREE PLOTS</h1>
-		<input type="submit" name="plotsAvailable" value="See The Available Free Plots"/>
+	<form action="AllProjectsServlet" method="post">
+		<h1>SEE ALL PROJECTS</h1>
+		<input type="submit" name="projectsAvailable" value="See The Available Projects"/>
 	</form>
 </body>
 </html>

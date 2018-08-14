@@ -20,14 +20,13 @@ private static final long serialVersionUID = 1L;
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		Proposal proposal = new Proposal();
-		//RequestDispatcher rDispatcher = request.getRequestDispatcher("target.jsp");
+		
 		PrintWriter printWriter = response.getWriter();
 		try {
 			
 			String stateReturned = proposal.approveProposal(request.getParameter("theNum"));
 			printWriter.println(stateReturned);
-			/*request.setAttribute("plots", list);
-			rDispatcher.forward(request, response);*/
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

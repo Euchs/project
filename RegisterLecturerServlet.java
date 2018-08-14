@@ -10,20 +10,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class AddCommentServlet
+ * Servlet implementation class RegisterLecturerServlet
  */
-@WebServlet(description = "Comments on the progress of an ongoing project", urlPatterns = { "/AddCommentServlet" })
-public class AddCommentServlet extends HttpServlet {
+@WebServlet(description = "Adds lecturer's details to the database", urlPatterns = { "/RegisterLecturerServlet" })
+public class RegisterLecturerServlet extends HttpServlet {
 private static final long serialVersionUID = 1L;
        
     
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		Project project = new Project();
+		Users users = new Users();
 		
 		PrintWriter printWriter = response.getWriter();
 		try {
-			String stateReturned = project.addComment(request.getParameter("theId"), request.getParameter("theTitle"));
+			String stateReturned = users.registerLecturer(request.getParameter("empnumber"), request.getParameter("empname"), request.getParameter("emppass"));
 			printWriter.println(stateReturned);
 			
 		} catch (Exception e) {

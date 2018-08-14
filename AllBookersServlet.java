@@ -22,13 +22,14 @@ public class AllBookersServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
 		Plots plots = new Plots();
-		//RequestDispatcher rDispatcher = request.getRequestDispatcher("target.jsp");
+		
 		PrintWriter printWriter = response.getWriter();
 		try {
 			ArrayList<String> list = plots.checkAvailableBookers();
-			printWriter.println("Here are the students who have booked plots already "+list);
-			/*request.setAttribute("plots", list);
-			rDispatcher.forward(request, response);*/
+			printWriter.println("Here are the students who have booked plots already ");
+			int i=0;
+			while(i<list.size()) {printWriter.print("Reg Number: "+list.get(i) + "   ");printWriter.println("Plot Booked: "+list.get(i+1));i=i+2;}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

@@ -21,13 +21,13 @@ public class FreePlotsServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		Plots plots = new Plots();
-		//RequestDispatcher rDispatcher = request.getRequestDispatcher("target.jsp");
+		
 		PrintWriter printWriter = response.getWriter();
 		try {
 			ArrayList<String> list = plots.checkFreePlots();
-			printWriter.println("Here are the availabble free plots "+list);
-			/*request.setAttribute("plots", list);
-			rDispatcher.forward(request, response);*/
+			printWriter.println("Here are all the availabble free plots ");
+			for(int i=0; i<list.size();i++) {printWriter.println("Plot: "+list.get(i));}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

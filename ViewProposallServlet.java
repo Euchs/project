@@ -8,23 +8,27 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class AddCommentServlet
+ * Servlet implementation class ViewProposallServlet
  */
-@WebServlet(description = "Comments on the progress of an ongoing project", urlPatterns = { "/AddCommentServlet" })
-public class AddCommentServlet extends HttpServlet {
+@WebServlet(description = "lecturer check a particular student's proposal", urlPatterns = { "/ViewProposallServlet" })
+public class ViewProposallServlet extends HttpServlet {
 private static final long serialVersionUID = 1L;
        
     
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		Project project = new Project();
+		Proposal proposal = new Proposal();
+		HttpSession session = request.getSession(false);
 		
 		PrintWriter printWriter = response.getWriter();
 		try {
-			String stateReturned = project.addComment(request.getParameter("theId"), request.getParameter("theTitle"));
-			printWriter.println(stateReturned);
+			
+			if(session!=null) {
+			String stateReturned = proposal.viewProposal(request.getParameter("theNum"));
+			printWriter.println(stateReturned);}
 			
 		} catch (Exception e) {
 			e.printStackTrace();

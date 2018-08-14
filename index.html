@@ -1,0 +1,29 @@
+<html>
+<head>
+	<title>Project Management System Chs</title>
+	<style type="text/css">
+		header{text-align:center;background-color:DodgerBlue;}
+		body{background-color:Azure;}
+	
+	form{background-color:LightGray;margin-left:25%;margin-top:8%;float:left;border:groove DarkGray 3px;padding:15px;border-radius: 5px;}
+	
+	</style>
+</head>
+<body>
+	<header id="headerText"><h3>EGERTON UNIVERSITY <br/> CHS PROJECT MANAGEMENT SYSTEM<br/><br/></h3></header>
+	
+<form action="RegisterStudentServlet" method="post">
+	<h1>REGISTER</h1><br/>
+	Enter Registration Number<br/><br/>  <input type="text" name="theId"/><br/><br>
+	Enter Name<br/><br/> <input type="text" name="theName"/><br/><br/>
+	Enter Password<br/><br/> <input type="password" name="thePass"/><br/><br/>
+	<input type="submit" name="addProject" value="REGISTER"/>
+</form>
+<form action="LoginServlet" method="post">
+	<h1>LOGIN</h1><br/>
+	Enter UserId<br/><br/>  <input type="text" name="theId"/><br/><br>
+	Enter Password<br/><br/> <input type="password" name="thePass"/><br/><br/>
+	<input type="submit" name="addProject" value="LOGIN"/>
+</form>
+</body>
+</html>

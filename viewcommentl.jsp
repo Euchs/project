@@ -8,14 +8,16 @@
 	form{text-align:center;margin-top:20%;}
 	
 </style>
-<title>APPROVE PROPOSAL</title>
+
+<title>SEE LATEST COMMENT</title>
 </head>
 <body>
 	<jsp:include page="lecturer.html"/><br/><br/>
-	<form action="ApproveProposalServlet" method="post">
-		<h1>APPROVE PROPOSAL</h1>
-		Enter Registration Number<br/><br/> <input type="text" name="theNum"/><br/><br/>
-		<input type="submit" name="approveProposal" value="Apprrove Proposal"/>
+	
+	<form action="ViewCommentlServlet" method="post">
+	<h1>SEE LATEST COMMENT ON A PROJECT</h1>
+	Enter ProjectID(Student's Registration Number) <br/><br/> <input type="text" name="theId"/><br/><br/>
+		<input type="submit" name="myCmments" value="See Latest Comment"/>
 	</form>
 </body>
 </html>

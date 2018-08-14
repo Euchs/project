@@ -21,13 +21,16 @@ private static final long serialVersionUID = 1L;
 
 		Plots plots = new Plots();
 		
-		//RequestDispatcher rDispatcher = request.getRequestDispatcher("target.jsp");
+		
 		PrintWriter printWriter = response.getWriter();
 		try {
 			String stateReturned = plots.addPlot(request.getParameter("theLabel"));
+			
+			/*printWriter.print("<html><head>");
+			printWriter.print("<script type=\"text/javascript\">alert("+stateReturned+"");
+			printWriter.print("</head><body></body></html>");*/
 			printWriter.println(stateReturned);
-			/*request.setAttribute("plots", list);
-			rDispatcher.forward(request, response);*/
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

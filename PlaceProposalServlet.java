@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class PlaceProposalServlet
@@ -20,15 +21,15 @@ private static final long serialVersionUID = 1L;
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		Proposal proposal = new Proposal();
+		HttpSession session = request.getSession(false);
 		
-		//RequestDispatcher rDispatcher = request.getRequestDispatcher("target.jsp");
 		PrintWriter printWriter = response.getWriter();
 		try {
 			
-			String stateReturned = proposal.placeProposal(request.getParameter("thePath"), request.getParameter("theReg"));
-			printWriter.println(stateReturned);
-			/*request.setAttribute("plots", list);
-			rDispatcher.forward(request, response);*/
+			if(session!=null) {
+			String stateReturned = proposal.placeProposal(request.getParameter("thePath"), (String)session.getAttribute("userId"));
+			printWriter.println(stateReturned);}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

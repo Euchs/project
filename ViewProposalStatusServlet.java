@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class ViewProposalStatusServlet
@@ -20,14 +21,15 @@ private static final long serialVersionUID = 1L;
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		Proposal proposal = new Proposal();
-		//RequestDispatcher rDispatcher = request.getRequestDispatcher("target.jsp");
+		HttpSession session = request.getSession(false);
+		
 		PrintWriter printWriter = response.getWriter();
 		try {
 			
-			String stateReturned = proposal.viewProposalStatus(request.getParameter("theNum"));
-			printWriter.println(stateReturned);
-			/*request.setAttribute("plots", list);
-			rDispatcher.forward(request, response);*/
+			if(session!=null) {
+			String stateReturned = proposal.viewProposalStatus((String)session.getAttribute("userId"));
+			printWriter.println(stateReturned);}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

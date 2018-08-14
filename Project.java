@@ -12,11 +12,12 @@ public class Project {
 	public ArrayList<String> checkAvailableProjects() throws SQLException {
 		
 		ArrayList<String> owner = new ArrayList<String>();
-		String query = "select owner from project where owner IS NOT NULL";
+		String query = "select owner, title from project where owner IS NOT NULL";
 		
 		ResultSet results = con.statement.executeQuery(query);
 		while(results.next()){
 			owner.add(results.getString("owner"));
+			owner.add(results.getString("title"));
 		}
 		return owner;
 	}
@@ -37,11 +38,14 @@ public  static Boolean doesProjectExist(String projectId) throws Exception  {
 	//Add Project
 	public String addProject(String owner, String title) throws Exception {
 		
-		String state;
-		if(!doesProjectExist(owner)) {	
+		String state = null;
+		if(!doesProjectExist(owner) && Proposal.isProposalApproved(owner) && Users.isRegistered(owner)) {	
 			 con.statement.executeUpdate("insert into `project`(owner, title)" + "values ('"+owner+"', '"+title+"')");
 			state="Project Added Successfully";
-		}else {state="There is already an ongoing project. Can't add another";}
+		}else if(doesProjectExist(owner)){state="There is already an ongoing project. Can't add another";
+		}else if(!Users.isRegistered(owner)) {state = "Student has not registered Yet";
+			
+		}else if(!Proposal.isProposalApproved(owner)) {state="The Student's Proposal Has Not Been Approved Yet";}else if(!Proposal.doesProposalExist(owner)) {state="Student Has Not Forwarded A Proposal Yet";}
 			
 			return state;
 	}

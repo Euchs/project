@@ -3,12 +3,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style type="text/css">
+	h1{text-align:center;}
+	form{text-align:center;margin-top:20%;}
+	
+</style>
 
 <title>ALL BOOKERS</title>
 </head>
 <body>
-	<h1>ALL BOOKERS</h1>
+	<jsp:include page="lecturer.html"/><br/><br/>
 	<form action="AllBookersServlet" method="post">
+		<h1>ALL BOOKERS</h1>
 		<input type="submit" name="bookers" value="See The Students Who have booked"/>
 	</form>
 </body>

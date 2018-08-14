@@ -3,14 +3,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-
+<style type="text/css">
+	h1{text-align:center;}
+	form{text-align:center;margin-top:20%;}
+	
+</style>
 <title>SEE LATEST COMMENT</title>
 </head>
 <body>
-	<h1>SEE LATEST COMMENT ON MY PROJECT</h1>
+	<jsp:include page="student.html"/><br/><br/>
 	
 	<form action="ViewCommentServlet" method="post">
-	Enter ProjectID(Student's Registration Number)  <input type="text" name="theId"/><br/>
+	<h1>SEE LATEST COMMENT ON MY PROJECT</h1>
+	
 		<input type="submit" name="myCmments" value="See Latest Comment"/>
 	</form>
 </body>

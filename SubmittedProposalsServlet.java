@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 /**
  * Servlet implementation class SubmittedProposalsServlet
  */
@@ -22,13 +23,13 @@ private static final long serialVersionUID = 1L;
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		Proposal proposal = new Proposal();
-		//RequestDispatcher rDispatcher = request.getRequestDispatcher("target.jsp");
+		
 		PrintWriter printWriter = response.getWriter();
 		try {
 			ArrayList<String> list = proposal.checkSubmittedProposalsIds();
-			printWriter.println("Here are the students who have already submitted their proposals "+list);
-			/*request.setAttribute("plots", list);
-			rDispatcher.forward(request, response);*/
+			printWriter.println("Here are the students who have already submitted their proposals ");
+			for(int i=0; i<list.size();i++) {printWriter.println("Student Reg Number: " + list.get(i));}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

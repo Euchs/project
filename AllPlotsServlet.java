@@ -22,13 +22,13 @@ public class AllPlotsServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
 		Plots plots = new Plots();
-		//RequestDispatcher rDispatcher = request.getRequestDispatcher("target.jsp");
+		
 		PrintWriter printWriter = response.getWriter();
 		try {
 			ArrayList<String> list = plots.checkAvailablePlots();
-			printWriter.println("Here are the plots currently in the database "+list);
-			/*request.setAttribute("plots", list);
-			rDispatcher.forward(request, response);*/
+			printWriter.println("Here are all the plots currently in the database ");
+			for(int i=0; i<list.size();i++) {printWriter.println("Plot: "+list.get(i));}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

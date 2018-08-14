@@ -21,13 +21,12 @@ private static final long serialVersionUID = 1L;
 
 		Project project = new Project();
 		
-		//RequestDispatcher rDispatcher = request.getRequestDispatcher("target.jsp");
+		
 		PrintWriter printWriter = response.getWriter();
 		try {
 			String stateReturned = project.addProject(request.getParameter("theId"), request.getParameter("theTitle"));
 			printWriter.println(stateReturned);
-			/*request.setAttribute("plots", list);
-			rDispatcher.forward(request, response);*/
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

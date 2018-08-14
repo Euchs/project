@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+
 public class Proposal{
 
 	/*Variables: owner, title, the file
@@ -54,7 +55,7 @@ public class Proposal{
 	//Check if proposal has been approved
 	public String viewProposalStatus(String owner) throws Exception{
 		
-		//First check if the project exists
+		//First check if the proposal exists
 		
 		String state;
 		if(doesProposalExist(owner)) {
@@ -63,10 +64,21 @@ public class Proposal{
 
 		ResultSet results=prep.executeQuery();
 		results.next();
-		state=results.getString("state");}else {state="Project does not exist";}
+		state=results.getString("state");}else {state="proposal does not exist";}
 
 		return state;
 	}
+	
+	//Is proposal approved
+		public  static Boolean isProposalApproved(String proposalId) throws Exception  {
+			
+			Proposal proposal = new Proposal();
+			String testaProposalId=proposal.viewProposalStatus(proposalId);
+			Boolean proposalApproved = false;
+			
+			if(testaProposalId.equalsIgnoreCase("Not Approved")) {proposalApproved = false;}else {proposalApproved = true;}
+			return proposalApproved;
+		}
 
 	//Forward your proposal
 	public String placeProposal(String filePath, String owner) throws Exception{
@@ -74,7 +86,8 @@ public class Proposal{
 		//First check if the proposal does not exist
 
 		InputStream inp = new FileInputStream(new File(filePath));
-		if(!doesProposalExist(owner)) {
+		String success = null;
+		if(!doesProposalExist(owner) && Users.isRegistered(owner)) {
 		
 		PreparedStatement prep = con.connection.prepareStatement("insert into proposal (owner, proposalfile, state) values (?, ?, ?)");
 		prep.setString(1, owner);
@@ -82,15 +95,20 @@ public class Proposal{
 		prep.setBlob(2, inp);
 		prep.setString(3, "Not Approved");
 
-		prep.executeUpdate();}else /*if proposal already exists*/{
+		prep.executeUpdate();success = "Successfully Added Your Proposal";}else if(doesProposalExist(owner))/*if proposal already exists*/{
 			
 			String defaultState= "Not Approved";
 			PreparedStatement prep = con.connection.prepareStatement("update proposal set proposalfile=?, state='"+defaultState+"' where owner ='"+owner+"'");
 			prep.setBlob(1, inp);
 			prep.executeUpdate();
+			
+			success = "Successfully Replaced Your Proposal File. You had an existing proposal already.";
+		}
+		else if(!Users.isRegistered(owner)) {
+			success = "Student has not registered. Can't place proposal...";
 		}
 		
-		return "Successfully Added Your Proposal";
+		return success;
 
 	}
 
@@ -124,16 +142,6 @@ public class Proposal{
 		return savedOrNot;
 	}
 	
-	//Is proposal approved
-	public  static Boolean isProposalApproved(String proposalId) throws Exception  {
-		
-		Proposal proposal = new Proposal();
-		String testaProposalId=proposal.viewProposalStatus(proposalId);
-		Boolean proposalApproved = false;
-		
-		if(testaProposalId.equalsIgnoreCase("Not Approved")) {proposalApproved = false;}else {proposalApproved = true;}
-		return proposalApproved;
-	}
 	
 	
 	//Approve proposal

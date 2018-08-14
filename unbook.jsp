@@ -5,11 +5,19 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>UNBOOK A STUDENT</title>
+<style type="text/css">
+	body{text-align:center;}
+	form{margin-top:10%;}
+	
+</style>
+
 </head>
 <body>
-<h1>UNBOOK A STUDENT</h1>
+<jsp:include page="admin.html"/><br/><br/>
+
 <form action="UnbookAstudentServlet" method="post">
-	Enter Registration Number <input type="text" name="theReg"/><br/>
+    UNBOOK A STUDENT<br/><br/>
+	Enter Registration Number <br/><br/><input type="text" name="theReg"/><br/><br/>
 	<input type="submit" name="unbooking" value="Unbook A Student"/>
 </form>
 </body>

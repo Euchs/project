@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class BookPlotServlet
@@ -21,17 +22,18 @@ private static final long serialVersionUID = 1L;
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		Plots plots = new Plots();
-		//RequestDispatcher rDispatcher = request.getRequestDispatcher("target.jsp");
+		HttpSession session = request.getSession(false);
 		
 		
 		try {
+			if(session!=null) {
 			String plotLabel = request.getParameter("theLabel");
-			String regNo = request.getParameter("theReg");
+			
+			String regNo = (String)session.getAttribute("userId");
 			PrintWriter printWriter = response.getWriter();
 			String state = plots.bookPlot(plotLabel, regNo);
-			printWriter.println(state);
-			/*request.setAttribute("plots", list);
-			rDispatcher.forward(request, response);*/
+			printWriter.println(state);}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
